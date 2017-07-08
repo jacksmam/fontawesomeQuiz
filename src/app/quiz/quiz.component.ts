@@ -13,9 +13,17 @@ import 'rxjs/add/operator/map';
 export class QuizComponent implements OnInit {
 
   quizzes: QuizClass[];
+  showQuiz: QuizClass;
+  answerIndex: number;
+  isCorrected: boolean;
+  showResult: boolean;
+  answerText: string;
 
   constructor(private http: Http) {
     this.quizzes = [];
+    this.answerIndex = 0;
+    this.isCorrected = false;
+    this.answerText = '';
   }
 
   private getFontAwesome(): Observable<Quiz[]> {
@@ -28,6 +36,19 @@ export class QuizComponent implements OnInit {
     return body.icons;
   }
 
+  clickCheckAnswer() {
+    console.log('click');
+    this.showResult = true;
+    const quiz = this.quizzes[this.answerIndex];
+    this.isCorrected = quiz.isCorrected(this.answerText);
+    setTimeout( () => {
+      this.showResult = false;
+      this.isCorrected = false;
+      this.answerIndex++;
+      this.answerText = '';
+    }, 2000);
+  }
+
   ngOnInit() {
     this.getFontAwesome()
         .subscribe(
@@ -36,7 +57,7 @@ export class QuizComponent implements OnInit {
               this.quizzes.push(new QuizClass(quiz));
             }
 
-            console.log(QuizClass.getRandomQuizzes(this.quizzes, 400));
+            this.quizzes = QuizClass.getRandomQuizzes(this.quizzes, 10);
           }
         );
   }

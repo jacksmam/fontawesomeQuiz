@@ -41,9 +41,9 @@ export class QuizClass implements Quiz{
     this.alias = obj.alias;
   }
 
-  checkAnswer(answer: string): boolean {
-    if (name === '' || answer === '') { return false; }
-    return name === answer;
+  isCorrected(answer: string): boolean {
+    if (this.id === '' || answer === '') { return false; }
+    return this.id === answer;
   }
 
   hasCategory(type: string): boolean {

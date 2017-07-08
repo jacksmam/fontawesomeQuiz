@@ -1,3 +1,24 @@
-<p>
-  quiz works!
-</p>
+<section class="ly-main">
+  <div class="title">{{answerIndex + 1}}問目</div>
+  <div *ngIf="quizzes.length > 0"
+        class="icon">
+    <i class="fa fa-{{quizzes[answerIndex].id}}"></i>
+  </div>
+  <div class="answer-input-area">
+    <span>fa-</span>
+    <input type="text" [(ngModel)]="answerText">
+  </div>
+  <div class="show-correct" *ngIf="showResult">
+    <div *ngIf="isCorrected else mistake">
+      <i class="fa fa-circle-o"></i>
+      正解です！
+    </div>
+    <ng-template #mistake>
+      <i class="fa fa-times"></i>
+      不正解です....
+    </ng-template>
+  </div>
+  <div class="submit-button" *ngIf="!showResult">
+    <span class="button" (click)="clickCheckAnswer()">回答する</span>
+  </div>
+</section>
