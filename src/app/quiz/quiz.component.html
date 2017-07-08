@@ -1,4 +1,4 @@
-<section class="ly-main">
+<section class="ly-main" *ngIf="!showLastResult">
   <div class="title">{{answerIndex + 1}}問目</div>
   <div *ngIf="quizzes.length > 0"
         class="icon">
@@ -16,9 +16,18 @@
     <ng-template #mistake>
       <i class="fa fa-times"></i>
       不正解です....
+      <div> 答えはfa-{{quizzes[answerIndex].id}}でした。</div>
     </ng-template>
   </div>
   <div class="submit-button" *ngIf="!showResult">
     <span class="button" (click)="clickCheckAnswer()">回答する</span>
   </div>
 </section>
+<section class="ly-main" *ngIf="showLastResult">
+  <div class="last-result">
+    {{quizzes.length}}問中{{correctedCount}}問正解でした。
+  </div>
+  <div class="submit-button">
+    <a class="button" href="/">TOPに戻る</a>
+  </div>
+</section> 

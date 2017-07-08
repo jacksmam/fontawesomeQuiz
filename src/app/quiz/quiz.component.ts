@@ -18,12 +18,16 @@ export class QuizComponent implements OnInit {
   isCorrected: boolean;
   showResult: boolean;
   answerText: string;
+  showLastResult: boolean;
+  correctedCount: number;
 
   constructor(private http: Http) {
     this.quizzes = [];
     this.answerIndex = 0;
     this.isCorrected = false;
     this.answerText = '';
+    this.showLastResult = false;
+    this.correctedCount = 0;
   }
 
   private getFontAwesome(): Observable<Quiz[]> {
@@ -37,14 +41,19 @@ export class QuizComponent implements OnInit {
   }
 
   clickCheckAnswer() {
-    console.log('click');
     this.showResult = true;
     const quiz = this.quizzes[this.answerIndex];
     this.isCorrected = quiz.isCorrected(this.answerText);
+    this.correctedCount += this.isCorrected ? 1 : 0;
     setTimeout( () => {
+      if (this.answerIndex >= this.quizzes.length - 1) {
+        this.answerIndex = 0;
+        this.showLastResult = true;
+        return;
+      }
+      this.answerIndex++;
       this.showResult = false;
       this.isCorrected = false;
-      this.answerIndex++;
       this.answerText = '';
     }, 2000);
   }
@@ -57,7 +66,7 @@ export class QuizComponent implements OnInit {
               this.quizzes.push(new QuizClass(quiz));
             }
 
-            this.quizzes = QuizClass.getRandomQuizzes(this.quizzes, 10);
+            this.quizzes = QuizClass.getRandomQuizzes(this.quizzes, 2);
           }
         );
   }
