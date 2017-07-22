@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import {QuizClass} from './models/quiz-class';
+import { APP_BASE_HREF } from '@angular/common';
+import { Inject } from '@angular/core';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
@@ -21,7 +23,7 @@ export class QuizComponent implements OnInit {
   showLastResult: boolean;
   correctedCount: number;
 
-  constructor(private http: Http) {
+  constructor(@Inject(APP_BASE_HREF) private baseHref: string, private http: Http) {
     this.quizzes = [];
     this.answerIndex = 0;
     this.isCorrected = false;
@@ -31,7 +33,7 @@ export class QuizComponent implements OnInit {
   }
 
   private getFontAwesome(): Observable<Quiz[]> {
-    return this.http.get('/assets/json/fontawesome.json')
+    return this.http.get(this.baseHref + 'assets/json/fontawesome.json')
                     .map(this.extractData);
   }
 

@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
 
 import { AppComponent } from './app.component';
 import { QuizComponent } from './quiz/quiz.component';
@@ -22,7 +23,7 @@ import { TopComponent } from './top/top.component';
     HttpModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [{provide: APP_BASE_HREF, useValue : '/awesome/'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
